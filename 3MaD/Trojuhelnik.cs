@@ -8,9 +8,12 @@ namespace _3MaD
 {
     class Trojuhelnik
     {
-        public Bod2D BodA { get; set; }
-        public Bod2D BodB { get; set; }
-        public Bod2D BodC { get; set; }
+        private readonly Bod2D BodA;
+        private readonly Bod2D BodB;
+        private readonly Bod2D BodC;
+        public double StranaA { get; private set; }
+        public double StranaB { get; private set; }
+        public double StranaC { get; private set; }
 
         public Trojuhelnik(Bod2D bod1, Bod2D bod2, Bod2D bod3)
         {
@@ -19,26 +22,28 @@ namespace _3MaD
             BodC = bod3;
         }
 
-        public void testSestrojitelnosti()
+        public void Existuje()
         {
-            double a = delkaStrany(BodB, BodC);
-            double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodB);
-            double obsah = obsahTrojuhelnika();
-            double alfa = velikostUhlu(BodA, BodB, BodC);
-            double beta = velikostUhlu(BodB, BodA, BodC);
-            double gama = velikostUhlu(BodC, BodB, BodA);
+            //jeden bod musi lezet na jine primce
+            bool neleziNaPrimce = false;
+            Vektor2D u = new Vektor2D(BodA, BodB);
+            double t1 = (BodC.X - BodA.X) / (u.u1);
+            double t2 = (BodC.Y - BodA.Y) / (u.u2);
+            neleziNaPrimce = t1 != t2;
 
-            if (a + b > c && a + c > b && b + c > a && obsah != 0 && (alfa + beta + gama == 180))
+            if (neleziNaPrimce)
             {
-
-                Console.WriteLine("Trojuhlenik lze sestrojit");
+                StranaA = delkaStrany(BodB, BodC);
+                StranaB = delkaStrany(BodA, BodC);
+                StranaC = delkaStrany(BodA, BodB);
+                //trojuhelnikova nerovnost
+                if ((StranaA + StranaB > StranaC) && (StranaB + StranaC > StranaA) && (StranaC + StranaA > StranaB))
+                {
+                    Console.WriteLine("Trojuhelnik je sestrojitelny.");
+                    return;
+                }
             }
-            else
-            {
-                Console.WriteLine("Ju fukedd upppp boizzzs");
-            }
-
+            Console.WriteLine("Trojuhelnik nelze sestrojit.");
         }
         public double delkaStrany(Bod2D bod1, Bod2D bod2)
         {
@@ -48,7 +53,7 @@ namespace _3MaD
         {
             double a = delkaStrany(BodB, BodC);
             double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodC);
+            double c = delkaStrany(BodA, BodB);
             double s = (a + b + c) / 2;
             return Math.Sqrt(s * (s - a) * (s - b) * (s - c));
         }
