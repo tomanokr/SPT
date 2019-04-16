@@ -1,4 +1,4 @@
-# SPT_project
+# SPT projekt
 
 Tento adresář slouží ke sdílení verzí závěrečného projektu do předmětu *Softwarová podpora vývojového týmu*.
 
