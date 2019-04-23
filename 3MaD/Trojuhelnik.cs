@@ -22,7 +22,7 @@ namespace _3MaD
             BodC = bod3;
         }
 
-        public void Existuje()
+        public bool Existuje()
         {
             //jeden bod musi lezet na jine primce
             bool neleziNaPrimce = false;
@@ -40,40 +40,38 @@ namespace _3MaD
                 if ((StranaA + StranaB > StranaC) && (StranaB + StranaC > StranaA) && (StranaC + StranaA > StranaB))
                 {
                     Console.WriteLine("Trojuhelnik je sestrojitelny.");
-                    return;
+                    return true;
                 }
             }
             Console.WriteLine("Trojuhelnik nelze sestrojit.");
+            return false;
         }
         public double delkaStrany(Bod2D bod1, Bod2D bod2)
         {
             return Math.Sqrt((bod1.X - bod2.X) * (bod1.X - bod2.X) + (bod1.Y - bod2.Y) * (bod1.Y - bod2.Y));
         }
-        public double obsahTrojuhelnika()
+        public void Parametry()
         {
-            double a = delkaStrany(BodB, BodC);
-            double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodB);
-            double s = (a + b + c) / 2;
-            return Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+            Console.WriteLine();
+            Console.WriteLine("------ parametry trojuhelnika ------");
+            Console.WriteLine();
+            double s = Obvod() / 2;
+            double obsah = Math.Sqrt(s * (s - StranaA) * (s - StranaB) * (s - StranaC));
+            Console.WriteLine($"Obsah trojuhelnika S = {Math.Round(obsah, 2)} j^2.");
+            Console.WriteLine($"Strana a = {StranaA:f2} j");
+            Console.WriteLine($"Strana b = {StranaB:f2} j");
+            Console.WriteLine($"Strana c = {StranaC:f2} j");
+            if ((StranaA*StranaA == StranaC*StranaC + StranaB*StranaB)||(StranaB * StranaB == StranaC * StranaC + StranaA * StranaA) ||(StranaC * StranaC == StranaA * StranaA + StranaB * StranaB))
+            {
+                Console.WriteLine("Trojuhelnik je pravouhly.");
+            }
+            else Console.WriteLine("Trojuhelnik neni pravouhly.");
         }
-        public double obvodTrojuhelnika()
+        public double Obvod()
         {
-            double a = delkaStrany(BodB, BodC);
-            double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodC);
-
-
-            return a + b + c;
-        }
-        public double velikostUhlu(Bod2D bod1, Bod2D bod2, Bod2D bod3)
-        {
-            Bod2D vektorV = new Bod2D(bod2.X - bod1.X, bod2.Y - bod1.Y);
-            Bod2D vektorU = new Bod2D(bod3.X - bod1.X, bod3.Y - bod1.Y);
-
-
-            return Math.Acos(((vektorV.X * vektorU.X) + (vektorV.Y * vektorU.Y)) / ((Math.Sqrt(Math.Pow(vektorV.X, 2) + Math.Pow(vektorV.Y, 2))) * Math.Sqrt(Math.Pow(vektorU.X, 2) + Math.Pow(vektorU.Y, 2)))) * 180 / Math.PI;
-
+            double obvod = StranaA + StranaB + StranaC;
+            Console.WriteLine($"Obvod trojuhelnika O = {Math.Round(obvod,2)} j.");
+            return obvod;
         }
     }
 }
