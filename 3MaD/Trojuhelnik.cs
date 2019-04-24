@@ -27,6 +27,8 @@ namespace _3MaD
             //jeden bod musi lezet na jine primce
             bool neleziNaPrimce = false;
             Vektor2D u = new Vektor2D(BodA, BodB);
+
+            // parametricka rovnice primky X = A + t*u
             double t1 = (BodC.X - BodA.X) / (u.u1);
             double t2 = (BodC.Y - BodA.Y) / (u.u2);
             neleziNaPrimce = t1 != t2;
@@ -48,19 +50,26 @@ namespace _3MaD
         }
         public double delkaStrany(Bod2D bod1, Bod2D bod2)
         {
-            return Math.Sqrt((bod1.X - bod2.X) * (bod1.X - bod2.X) + (bod1.Y - bod2.Y) * (bod1.Y - bod2.Y));
+            // vzorec pro vypocet delky strany z analyticke geometrie (vzdalenost dvou bodu)
+            return Math.Sqrt((bod2.X - bod1.X) * (bod2.X - bod1.X) + (bod2.Y - bod1.Y) * (bod2.Y - bod1.Y));
         }
         public void Parametry()
         {
             Console.WriteLine();
             Console.WriteLine("------ parametry trojuhelnika ------");
             Console.WriteLine();
+
+            // Heronuv vzorec pro vypocet obsahu trojuhelnika
             double s = Obvod() / 2;
             double obsah = Math.Sqrt(s * (s - StranaA) * (s - StranaB) * (s - StranaC));
             Console.WriteLine($"Obsah trojuhelnika S = {Math.Round(obsah, 2)} j^2.");
+
+            // vypis delek stran
             Console.WriteLine($"Strana a = {StranaA:f2} j");
             Console.WriteLine($"Strana b = {StranaB:f2} j");
             Console.WriteLine($"Strana c = {StranaC:f2} j");
+
+            // podminka pro pravouhlost vychazi z platnosti Pythagorovy vety
             if ((StranaA*StranaA == StranaC*StranaC + StranaB*StranaB)||(StranaB * StranaB == StranaC * StranaC + StranaA * StranaA) ||(StranaC * StranaC == StranaA * StranaA + StranaB * StranaB))
             {
                 Console.WriteLine("Trojuhelnik je pravouhly.");
