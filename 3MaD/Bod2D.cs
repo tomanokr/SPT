@@ -23,6 +23,7 @@ namespace _3MaD
             }
     }
 
+
     /*!
      * \brief Pomocná struktura k ověření sestrojitelnosti trojúhelníka
      * \param u1

@@ -17,6 +17,7 @@ namespace _3MaD
         private readonly Bod2D BodA; /*!< Bod A trojúhleníku definován pomocí struktury BoD2D */
         private readonly Bod2D BodB; /*!< Bod B trojúhleníku definován pomocí struktury BoD2D */
         private readonly Bod2D BodC; /*!< Bod C trojúhleníku definován pomocí struktury BoD2D */
+
         public double StranaA { get; private set; }
         public double StranaB { get; private set; }
         public double StranaC { get; private set; }
@@ -58,6 +59,7 @@ namespace _3MaD
 
 
                 /*! Ověření kritéria pro trojúhelníkovou nerovnost*/
+
                 if ((StranaA + StranaB > StranaC) && (StranaB + StranaC > StranaA) && (StranaC + StranaA > StranaB))
                 {
                     Console.WriteLine("Trojuhelnik je sestrojitelny.");

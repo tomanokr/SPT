@@ -44,6 +44,7 @@ namespace _3MaD
          */
         static bool Nacteni(ref double[] souradnice)
         {
+
             Console.WriteLine("Zadejte souradnice bodu trojuhelnika: ");
             for (byte i = 0; i < 6; i++)
             {
@@ -95,16 +96,20 @@ namespace _3MaD
         }
         static void Main(string[] args)
         {
+
             /*! Spuštění programu uživatelem */
+
             bool bezim = true;
             while (bezim)
             {
                 Console.WriteLine("---------------------- PROGRAM SESTROJITELNOSTI TROJUHELNIKA ----------------------");
                 Console.WriteLine();
                 Console.WriteLine();
+
                 /*! Pole pro ukládání souřadnic ze vstupu */
                 double[] souradnice = new double[6];
                 /*! Test správného načtení souřadnic */
+
                 if (Nacteni(ref souradnice))
                 {
                     Trojuhelnik triangl = new Trojuhelnik(new Bod2D(souradnice[0], souradnice[1]), new Bod2D(souradnice[2], souradnice[3]), new Bod2D(souradnice[4], souradnice[5]));
@@ -117,8 +122,10 @@ namespace _3MaD
                 Console.WriteLine("----------------------------------------------------------------------------------");
                 Console.WriteLine("Pro dalsi trojuhelnik stisknete ENTER.");
                 if (Console.ReadKey(true).Key != ConsoleKey.Enter) bezim = false;
+              
                 /*! Vymazání obsahu konzole po stisknutí klávesy Enter */
                 Console.Clear();
+
             }
 
         }
