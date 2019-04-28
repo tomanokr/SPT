@@ -1,4 +1,31 @@
-﻿using System;
+﻿
+/*! \mainpage Programová dokumentace
+ * 
+ *  \section intro Úvod
+ *  
+ *  Toto je programová dokumentace mini-projektu Trojúhelník
+ *  
+ *  Team: Kristýna Tomanová, Tereza Matulíková, Jan Sadílek, Michal Václavík
+ *  
+ */
+
+/*!
+ * \namespace _3MaD
+ * \brief Krátký popis funkcí našeho programu
+ * \authors Kristýna Tomanová, Tereza Matulíková, Jan Sadílek, Michal Václavík
+ * \date 29.dubna 2019
+ * \details Konzolová aplikace pro trojúhelník
+ * \details Vstup
+ *     - Souřadnice vrcholů (tří bodů) ve 2D prostoru
+ *     - Zadávání souřadnic za běhu programu dotazováním uživatele
+ * \details Výstup
+ *     - Informace o sestrojitelnosti trojúhelníku
+ *     - Informace o délkách stran
+ *     - Informace o obvodu a obsahu
+ *     - Informace o pravoúhlosti
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +33,18 @@ using System.Threading.Tasks;
 
 namespace _3MaD
 { 
+    /*!
+     * \brief Průběh programu
+     */
     class Program
     {
+        /*!
+         * \brief Načítání souřadnic do pole
+         * \param souradnice 
+         */
         static bool Nacteni(ref double[] souradnice)
         {
-            // metoda nacitani souradnic bodu ze vstupu
+
             Console.WriteLine("Zadejte souradnice bodu trojuhelnika: ");
             for (byte i = 0; i < 6; i++)
             {
@@ -62,13 +96,20 @@ namespace _3MaD
         }
         static void Main(string[] args)
         {
+
+            /*! Spuštění programu uživatelem */
+
             bool bezim = true;
             while (bezim)
             {
                 Console.WriteLine("---------------------- PROGRAM SESTROJITELNOSTI TROJUHELNIKA ----------------------");
                 Console.WriteLine();
                 Console.WriteLine();
-                double[] souradnice = new double[6]; // pole pro ukladani souradnic ze vstupu       
+
+                /*! Pole pro ukládání souřadnic ze vstupu */
+                double[] souradnice = new double[6];
+                /*! Test správného načtení souřadnic */
+
                 if (Nacteni(ref souradnice))
                 {
                     Trojuhelnik triangl = new Trojuhelnik(new Bod2D(souradnice[0], souradnice[1]), new Bod2D(souradnice[2], souradnice[3]), new Bod2D(souradnice[4], souradnice[5]));
@@ -81,7 +122,10 @@ namespace _3MaD
                 Console.WriteLine("----------------------------------------------------------------------------------");
                 Console.WriteLine("Pro dalsi trojuhelnik stisknete ENTER.");
                 if (Console.ReadKey(true).Key != ConsoleKey.Enter) bezim = false;
-                Console.Clear(); // vymazani konzole
+              
+                /*! Vymazání obsahu konzole po stisknutí klávesy Enter */
+                Console.Clear();
+
             }
 
         }
