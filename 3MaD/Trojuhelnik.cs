@@ -6,11 +6,20 @@ using System.Threading.Tasks;
 
 namespace _3MaD
 {
+    /*!
+     * \brief Třída pro práci s trojúhelníkem
+     * \param BoDA
+     * \param BodB
+     * \param BodC
+     */
     class Trojuhelnik
     {
-        public Bod2D BodA { get; set; }
-        public Bod2D BodB { get; set; }
-        public Bod2D BodC { get; set; }
+        private readonly Bod2D BodA; /*!< Bod A trojúhleníku definován pomocí struktury BoD2D */
+        private readonly Bod2D BodB; /*!< Bod B trojúhleníku definován pomocí struktury BoD2D */
+        private readonly Bod2D BodC; /*!< Bod C trojúhleníku definován pomocí struktury BoD2D */
+        public double StranaA { get; private set; }
+        public double StranaB { get; private set; }
+        public double StranaC { get; private set; }
 
         public Trojuhelnik(Bod2D bod1, Bod2D bod2, Bod2D bod3)
         {
@@ -18,57 +27,96 @@ namespace _3MaD
             BodB = bod2;
             BodC = bod3;
         }
-
-        public void testSestrojitelnosti()
+        /*!
+         * \brief Funkce ke zjištění sestrojitelnosti
+         * \return True nebo False
+         */
+        public bool Existuje()
         {
-            double a = delkaStrany(BodB, BodC);
-            double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodB);
-            double obsah = obsahTrojuhelnika();
-            double alfa = velikostUhlu(BodA, BodB, BodC);
-            double beta = velikostUhlu(BodB, BodA, BodC);
-            double gama = velikostUhlu(BodC, BodB, BodA);
+            /*!
+            * \brief Zjištění zda neleží na jedné přímce
+            */
+            bool neleziNaPrimce = false; /*!< Nastavení na false */
+            Vektor2D u = new Vektor2D(BodA, BodB); /*!< Vektor u bodů AB */
 
-            if (a + b > c && a + c > b && b + c > a && obsah != 0 && (alfa + beta + gama == 180))
+            /*!
+            * \brief Parametrická rovnice přímky X = A + t*u
+            */
+            double t1 = (BodC.X - BodA.X) / (u.u1); /*!< Hodnota parametru přímky t1 */
+            double t2 = (BodC.Y - BodA.Y) / (u.u2); /*!< Hodnota parametru přímky t2 */
+            neleziNaPrimce = t1 != t2;
+
+            /*!
+            * \brief Pokud neleží na jedné přímce dojde k vykonání
+            */
+
+            if (neleziNaPrimce)
             {
+                StranaA = delkaStrany(BodB, BodC);
+                StranaB = delkaStrany(BodA, BodC);
+                StranaC = delkaStrany(BodA, BodB);
 
-                Console.WriteLine("Trojuhlenik lze sestrojit");
-            }
-            else
-            {
-                Console.WriteLine("Ju fukedd upppp boizzzs");
-            }
 
+                /*! Ověření kritéria pro trojúhelníkovou nerovnost*/
+                if ((StranaA + StranaB > StranaC) && (StranaB + StranaC > StranaA) && (StranaC + StranaA > StranaB))
+                {
+                    Console.WriteLine("Trojuhelnik je sestrojitelny.");
+                    return true;
+                }
+            }
+            Console.WriteLine("Trojuhelnik nelze sestrojit.");
+            return false;
         }
+
+        /*!
+         * \brief Výpočet délky strany
+         * \return Délka strany
+         */
         public double delkaStrany(Bod2D bod1, Bod2D bod2)
         {
-            return Math.Sqrt((bod1.X - bod2.X) * (bod1.X - bod2.X) + (bod1.Y - bod2.Y) * (bod1.Y - bod2.Y));
+            /*!
+             * \brief Vzorec pro výpočet délky strany z analytické geometrie (vzdálenost dvou bodů)
+             */
+            return Math.Sqrt((bod2.X - bod1.X) * (bod2.X - bod1.X) + (bod2.Y - bod1.Y) * (bod2.Y - bod1.Y));
         }
-        public double obsahTrojuhelnika()
+
+        /*!
+         * \brief Výpis parametrů na konzoli
+         */
+        public void Parametry()
         {
-            double a = delkaStrany(BodB, BodC);
-            double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodC);
-            double s = (a + b + c) / 2;
-            return Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+            Console.WriteLine();
+            Console.WriteLine("------ parametry trojuhelnika ------");
+            Console.WriteLine();
+            /*!
+            * \brief Heronův vzorec pro výpočet obsahu trojúhelníka
+            */
+            double s = Obvod() / 2; /*!< Hodnota obvodu */
+            double obsah = Math.Sqrt(s * (s - StranaA) * (s - StranaB) * (s - StranaC)); /*!< Hodnota obsahu */
+            Console.WriteLine($"Obsah trojuhelnika S = {Math.Round(obsah, 2)} j^2.");
+
+            // vypis delek stran
+            Console.WriteLine($"Strana a = {StranaA:f2} j");
+            Console.WriteLine($"Strana b = {StranaB:f2} j");
+            Console.WriteLine($"Strana c = {StranaC:f2} j");
+
+            // podminka pro pravouhlost vychazi z platnosti Pythagorovy vety
+            if ((StranaA*StranaA == StranaC*StranaC + StranaB*StranaB)||(StranaB * StranaB == StranaC * StranaC + StranaA * StranaA) ||(StranaC * StranaC == StranaA * StranaA + StranaB * StranaB))
+            {
+                Console.WriteLine("Trojuhelnik je pravouhly.");
+            }
+            else Console.WriteLine("Trojuhelnik neni pravouhly.");
         }
-        public double obvodTrojuhelnika()
+
+        /*!
+         * \brief Výpočet obvodu
+         * \return Obvod
+         */
+        public double Obvod()
         {
-            double a = delkaStrany(BodB, BodC);
-            double b = delkaStrany(BodA, BodC);
-            double c = delkaStrany(BodA, BodC);
-
-
-            return a + b + c;
-        }
-        public double velikostUhlu(Bod2D bod1, Bod2D bod2, Bod2D bod3)
-        {
-            Bod2D vektorV = new Bod2D(bod2.X - bod1.X, bod2.Y - bod1.Y);
-            Bod2D vektorU = new Bod2D(bod3.X - bod1.X, bod3.Y - bod1.Y);
-
-
-            return Math.Acos(((vektorV.X * vektorU.X) + (vektorV.Y * vektorU.Y)) / ((Math.Sqrt(Math.Pow(vektorV.X, 2) + Math.Pow(vektorV.Y, 2))) * Math.Sqrt(Math.Pow(vektorU.X, 2) + Math.Pow(vektorU.Y, 2)))) * 180 / Math.PI;
-
+            double obvod = StranaA + StranaB + StranaC;
+            Console.WriteLine($"Obvod trojuhelnika O = {Math.Round(obvod,2)} j.");
+            return obvod;
         }
     }
 }
